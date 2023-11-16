@@ -1,5 +1,4 @@
 const express = require('express');
-const sql = require('mssql');
 const { generarQR } = require('./qrManagers');
 const router = express.Router();
 
