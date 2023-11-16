@@ -3,7 +3,7 @@
 const QRCode = require('qrcode');
 
 function generarURLUnica(idProducto) {
-    return `https://qrsystemback.onrender.com/products/${idProducto}`;
+    return `https://qrsystemback.onrender.com/${idProducto}`;
 }
 
 async function generarQR(idProducto) {
