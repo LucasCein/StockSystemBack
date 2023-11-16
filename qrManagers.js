@@ -3,10 +3,10 @@
 const QRCode = require('qrcode');
 
 // function generarURLUnica(idProducto) {
-//     return `https://qrsystemback.onrender.com/${idProducto}`;
+//     https://qrsystemfront.onrender.com/productos;
 // }
 function generarURLUnica(idProducto) {
-    return `https://qrsystemback.onrender.com/${idProducto}`;
+    return `http://localhost:5173/productos/${idProducto}`;
 }
 async function generarQR(idProducto) {
     try {
@@ -18,6 +18,7 @@ async function generarQR(idProducto) {
         throw new Error('Fallo al generar el código QR');
     }
 }
+
 
 module.exports = {
     generarQR,
