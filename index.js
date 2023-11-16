@@ -10,8 +10,8 @@ app.use(express.json());
 
 // Configuración de CORS
 const corsOptions = {
-  origin: 'http://localhost:5173', // o la URL de tu frontend
-  optionsSuccessStatus: 200 // Para navegadores legacy que no soportan 204
+  origin: 'https://qrsystemfront.onrender.com', // Asegúrate de que este sea el dominio de tu frontend
+  optionsSuccessStatus: 200 // Para navegadores antiguos que no soportan 204
 };
 
 // Aplica CORS antes de tus rutas
