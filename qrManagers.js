@@ -2,10 +2,12 @@
 
 const QRCode = require('qrcode');
 
+// function generarURLUnica(idProducto) {
+//     return `https://qrsystemback.onrender.com/${idProducto}`;
+// }
 function generarURLUnica(idProducto) {
     return `https://qrsystemback.onrender.com/${idProducto}`;
 }
-
 async function generarQR(idProducto) {
     try {
         const url = generarURLUnica(idProducto);

@@ -11,7 +11,6 @@ const pool = new Pool({
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
   });
-  
 
 
 router.get('/products', async (req, res) => {
