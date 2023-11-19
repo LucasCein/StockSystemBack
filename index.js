@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const productosRoutes = require('./productoCRUD');
 const cors = require('cors');
-
+const path = require('path');
 const app = express();
 
 // Middleware para parsear JSON
