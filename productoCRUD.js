@@ -83,10 +83,10 @@ router.put('/products', async (req, res) => {
     }
 });
 
-router.delete('/products', async (req, res) => {
+router.delete('/products/:id', async (req, res) => {
 
     try {
-        const result = await pool.query('DELETE FROM products WHERE productid = $1', [req.body.productid]);
+        const result = await pool.query('DELETE FROM products WHERE productid = $1', [req.params.id]);
         
         if (result.rowCount === 0) {
             return res.status(404).send('Producto no encontrado');
