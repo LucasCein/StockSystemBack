@@ -65,12 +65,12 @@ router.post('/products', async (req, res) => {
     }
 });
 
-router.put('/products/:id', async (req, res) => {
+router.put('/products', async (req, res) => {
     try {
-        const { nombre, codigo } = req.body;
+        const { name, code, quantity, date, idealstock, productid } = req.body;
         const result = await pool.query(
-            'UPDATE products SET name = $1, code = $2 WHERE productid = $3 RETURNING *',
-            [nombre, codigo, req.params.id]
+            'UPDATE products SET name = $1, code = $2, date = $3, quantity = $4, idealstock = $5 WHERE productid = $6 RETURNING *',
+            [name, code, date, quantity, idealstock, productid]
         );
         
         if (result.rowCount === 0) {
@@ -83,9 +83,10 @@ router.put('/products/:id', async (req, res) => {
     }
 });
 
-router.delete('/products/:id', async (req, res) => {
+router.delete('/products', async (req, res) => {
+
     try {
-        const result = await pool.query('DELETE FROM products WHERE productid = $1', [req.params.id]);
+        const result = await pool.query('DELETE FROM products WHERE productid = $1', [req.body.productid]);
         
         if (result.rowCount === 0) {
             return res.status(404).send('Producto no encontrado');
