@@ -8,6 +8,8 @@ const app = express();
 // Middleware para parsear JSON
 app.use(express.json());
 
+
+
 // Configuración de CORS
 const corsOptions = {
   origin: 'https://qrsystemfront.onrender.com', // Asegúrate de que este sea el dominio de tu frontend
@@ -19,6 +21,10 @@ const corsOptions = {
 // };
 // Aplica CORS antes de tus rutas
 app.use(cors(corsOptions));
+app.use(express.static(path.join(__dirname, 'dist')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 // Tus rutas
 app.use(productosRoutes);
@@ -27,11 +33,7 @@ app.use(productosRoutes);
 // app.get('/', (req, res) => {
 //   res.send('¡El servidor Express está funcionando!');
 // });
-app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
 // Inicia el servidor
 const PORT = process.env.PORT || 3000;
 // app.listen(PORT, '::', () => {
