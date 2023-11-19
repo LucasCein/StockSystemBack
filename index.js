@@ -27,7 +27,11 @@ app.use(productosRoutes);
 // app.get('/', (req, res) => {
 //   res.send('¡El servidor Express está funcionando!');
 // });
+app.use(express.static(path.join(__dirname, 'build')));
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 // Inicia el servidor
 const PORT = process.env.PORT || 3000;
 // app.listen(PORT, '::', () => {
