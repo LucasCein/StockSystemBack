@@ -6,7 +6,7 @@ const QRCode = require('qrcode');
 //     https://qrsystemfront.onrender.com/productos;
 // }
 function generarURLUnica(idProducto) {
-    return `http://localhost:5173/productos/${idProducto}`;
+    return `https://qrsystemfront.onrender.com/productos/${idProducto}`;
 }
 async function generarQR(idProducto) {
     try {
