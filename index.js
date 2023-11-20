@@ -17,7 +17,7 @@ const corsOptions = {
 // };
 // Aplica CORS antes de tus rutas
 app.use(cors(corsOptions));
-app.use('/api', apiRoutes);
+
 app.use(express.static(path.join(__dirname, 'dist')));
 // Configuración de CORS
 
