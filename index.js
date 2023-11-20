@@ -2,15 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const productosRoutes = require('./productoCRUD');
 const cors = require('cors');
-
+const path = require('path');
 const app = express();
 
 // Middleware para parsear JSON
 app.use(express.json());
-
-
-
-// Configuración de CORS
 const corsOptions = {
   origin: 'https://qrsystemfront.onrender.com', // Asegúrate de que este sea el dominio de tu frontend
   optionsSuccessStatus: 200 // Para navegadores antiguos que no soportan 204
@@ -21,8 +17,15 @@ const corsOptions = {
 // };
 // Aplica CORS antes de tus rutas
 app.use(cors(corsOptions));
+app.use('/api', apiRoutes);
+app.use(express.static(path.join(__dirname, 'dist')));
+// Configuración de CORS
 
 
+// Redirección para el Client-Side Routing de React Router
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+});
 // Tus rutas
 app.use(productosRoutes);
 
