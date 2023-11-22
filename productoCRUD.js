@@ -51,8 +51,8 @@ router.post('/products', async (req, res) => {
         const { name, code, quantityb,quantityu, date, idealstock } = req.body;
         console.log('body',{name, code, quantity, date, idealstock});
         const result = await pool.query(
-            'INSERT INTO products(name, code, date, quantityb,quantityu, idealstock) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
-            [name, code, date, quantityb,quantityu, idealstock]
+            'INSERT INTO products(name, code, date, quantityb, quantityu, idealstock) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
+            [name, code, date, quantityb, quantityu, idealstock]
         );
 
         const nuevoproductid = result.rows[0].productid;
