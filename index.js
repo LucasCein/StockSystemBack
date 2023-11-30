@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./scheduledTasks');
 const express = require('express');
 const productosRoutes = require('./productoCRUD');
 const cors = require('cors');

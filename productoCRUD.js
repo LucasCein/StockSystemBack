@@ -1,5 +1,6 @@
 const express = require('express');
 const { generarQR } = require('./qrManagers');
+
 const router = express.Router();
 
 const { Pool } = require('pg');
