@@ -1,5 +1,4 @@
 const cron = require('node-cron');
-const cron = require('node-cron');
 const { Pool } = require('pg');
 
 const pool = new Pool({
