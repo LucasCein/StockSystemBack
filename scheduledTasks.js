@@ -20,7 +20,7 @@ const eliminarProductosAntiguos = async () => {
     }
 };
 
-//cron.schedule('0 0 * * *', eliminarProductosAntiguos);
-setTimeout(eliminarProductosAntiguos,1000)
+cron.schedule('0 0 * * *', eliminarProductosAntiguos);
+
 
 
