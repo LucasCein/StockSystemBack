@@ -49,7 +49,7 @@ router.get('/products/:id', async (req, res) => {
 router.post('/products', async (req, res) => {
     try {
         const { name, code, quantityb,quantityu, date, idealstock } = req.body;
-        console.log('body',{name, code, quantity, date, idealstock});
+        console.log('body',{name, code, quantityb,quantityu, date, idealstock});
         const result = await pool.query(
             'INSERT INTO products(name, code, date, quantityb, quantityu, idealstock) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
             [name, code, date, quantityb, quantityu, idealstock]
