@@ -1,4 +1,5 @@
 const cron = require('node-cron');
+const cron = require('node-cron');
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -20,5 +21,7 @@ const eliminarProductosAntiguos = async () => {
     }
 };
 
-cron.schedule('0 0 * * *', eliminarProductosAntiguos);
+//cron.schedule('0 0 * * *', eliminarProductosAntiguos);
+setTimeout(eliminarProductosAntiguos,1000)
+
 
