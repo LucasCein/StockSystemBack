@@ -12,7 +12,7 @@ async function generarQR(idProducto) {
     try {
         const url = generarURLUnica(idProducto);
         const qrOptions = {
-            scale: 10, // Ajusta este valor según sea necesario
+            scale: 50, // Ajusta este valor según sea necesario
             margin: 2,
             color: {
                 dark: "#000000",  // Puntos del QR
