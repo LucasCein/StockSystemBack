@@ -22,8 +22,8 @@ const pool = new Pool({
 // });
 router.post('/login', async (req, res) => {
     try {
-        const { username, password } = req.body;
-        const result = await pool.query('SELECT * FROM users WHERE username = $1 AND password = $2', [username, password]);
+        const { name, password } = req.body;
+        const result = await pool.query('SELECT * FROM users WHERE name = $1 AND password = $2', [name, password]);
         if (result.rows.length === 0) {
             return res.status(401).send('Credenciales incorrectas');
         }
