@@ -1,6 +1,6 @@
 require('dotenv').config();
 require('./scheduledTasks');
-require('./login')
+const loginRoutes=require('./login')
 const express = require('express');
 const productosRoutes = require('./productoCRUD');
 const cors = require('cors');
@@ -27,7 +27,7 @@ app.use(cors(corsOptions));
 
 // Tus rutas
 app.use(productosRoutes);
-
+app.use(loginRoutes);
 // Un endpoint de prueba para verificar que el servidor funciona
 // app.get('/', (req, res) => {
 //   res.send('¡El servidor Express está funcionando!');
