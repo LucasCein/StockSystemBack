@@ -11,9 +11,16 @@ const pool = new Pool({
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
-  });
+});
 
-
+router.get('/products/suggest', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM articulos');
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
 router.get('/products', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM products');
