@@ -12,7 +12,7 @@ const pool = new Pool({
 const eliminarProductosAntiguos = async () => {
     try {
         const result = await pool.query(
-            "DELETE FROM products WHERE date < NOW() - INTERVAL '2 days'"
+            "DELETE FROM products WHERE date < NOW() - INTERVAL '7 days'"
         );
         console.log(`Productos eliminados: ${result.rowCount}`);
     } catch (err) {
