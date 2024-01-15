@@ -15,7 +15,7 @@ app.use(express.json());
 //Configuración de CORS
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = ['http://localhost:5173', 'https://stocksystemfront.onrender.com'];
+    const allowedOrigins = ['http://localhost:5173', 'https://stocksystemfront-gsg2.onrender.com'];
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -40,7 +40,7 @@ app.use(loginRoutes);
 // Inicia el servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '::', () => {
-  console.log(`Servidor corriendo en https://qrsystemback.onrender.com:${PORT}`);
+  console.log(`Servidor corriendo en https://stocksystemback-uorn.onrender.com${PORT}`);
 });
 // app.listen(PORT, '::', () => {
 //   console.log(`Servidor corriendo en http://localhost:${PORT}`);
