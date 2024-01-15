@@ -7,7 +7,7 @@ const cors = require('cors');
 
 const app = express();
 
-// Middleware para parsear JSON
+// Middleware para parsear JSON aaaa
 app.use(express.json());
 
 
