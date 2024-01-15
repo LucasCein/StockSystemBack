@@ -25,8 +25,6 @@ const corsOptions = {
   optionsSuccessStatus: 200 // Para navegadores antiguos que no soportan 204
 };
 
-app.use(cors(corsOptions));
-
 // Aplica CORS antes de tus rutas
 app.use(cors(corsOptions));
 
