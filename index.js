@@ -10,6 +10,10 @@ const app = express();
 // Middleware para parsear JSON aaaa
 app.use(express.json());
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 
 
 //Configuración de CORS
