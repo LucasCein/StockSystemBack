@@ -2,7 +2,7 @@ services:
 - type: web
   name: my-react-app
   env: static
-  staticPublishPath: ./build
+  staticPublishPath: dist
   routes:
     - type: rewrite
       source: /*
