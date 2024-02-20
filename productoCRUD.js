@@ -29,7 +29,14 @@ router.get('/products', async (req, res) => {
         res.status(500).send(err.message);
     }
 });
-
+router.get('/products/:username', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM products WHERE username = $1', [req.params.username]);
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
 console.log(pool.options);
 
 router.get('/products/:id', async (req, res) => {
@@ -53,7 +60,7 @@ router.get('/products/:id', async (req, res) => {
     }
 });
 
-//ver desde aca pa abajo
+
 router.post('/products', async (req, res) => {
     try {
         const { name, code, codbarras, codprov, quantityb,quantityu, date, idealstock, unxcaja, total, familia, username } = req.body;
