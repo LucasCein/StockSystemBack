@@ -12,6 +12,7 @@ app.use(express.json());
 
 
 
+
 //Configuración de CORS
 const corsOptions = {
   origin: function (origin, callback) {
@@ -39,6 +40,10 @@ app.use(loginRoutes);
 
 // Inicia el servidor
 const PORT = process.env.PORT || 3000;
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 app.listen(PORT, '::', () => {
   console.log(`Servidor corriendo en https://stocksystemback-uorn.onrender.com${PORT}`);
 });
