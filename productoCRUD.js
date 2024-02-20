@@ -31,12 +31,14 @@ router.get('/products', async (req, res) => {
 });
 router.get('/products/:username', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM products WHERE username = $1', [req.params.username]);
+        // Usa el operador ANY para buscar el username dentro del array username de la tabla
+        const result = await pool.query('SELECT * FROM products WHERE $1 = ANY(username)', [req.params.username]);
         res.json(result.rows);
     } catch (err) {
         res.status(500).send(err.message);
     }
 });
+
 console.log(pool.options);
 
 router.get('/products/:id', async (req, res) => {
