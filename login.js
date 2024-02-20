@@ -24,15 +24,19 @@ const pool = new Pool({
 router.post('/login', async (req, res) => {
   try {
       const { name, password } = req.body;
-      const result = await pool.query('SELECT * FROM users WHERE name = $1 AND password = $2', [name, password]);
+      // Asegúrate de seleccionar el userid en tu consulta
+      const result = await pool.query('SELECT userid, name FROM users WHERE name = $1 AND password = $2', [name, password]);
       if (result.rows.length === 0) {
           return res.status(401).json({ message: 'Credenciales incorrectas' });
       }
-      res.json({ message: 'Login exitoso' });
+      // Devuelve el userid y cualquier otro dato que necesites en la respuesta
+      const user = result.rows[0]; // Asumiendo que solo hay una coincidencia, lo cual debería ser cierto para pares únicos de nombre/contraseña
+      res.json({ message: 'Login exitoso', userid: user.userid, name: user.name });
   } catch (err) {
       res.status(500).json({ message: err.message });
   }
 });
+
 
 
 module.exports = router;
