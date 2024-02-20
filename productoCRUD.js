@@ -56,10 +56,10 @@ router.get('/products/:id', async (req, res) => {
 //ver desde aca pa abajo
 router.post('/products', async (req, res) => {
     try {
-        const { name, code, codbarras, codprov, quantityb,quantityu, date, idealstock, unxcaja, total, familia, userName } = req.body;
+        const { name, code, codbarras, codprov, quantityb,quantityu, date, idealstock, unxcaja, total, familia, username } = req.body;
         const result = await pool.query(
-            'INSERT INTO products(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, userName) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
-            [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, userName]
+            'INSERT INTO products(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, username) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
+            [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, username]
         );
 
         const nuevoproductid = result.rows[0].productid;
@@ -74,10 +74,10 @@ router.post('/products', async (req, res) => {
 
 router.put('/products', async (req, res) => {
     try {
-        const { name, code, codbarras, codprov, quantityu, quantityb, date, idealstock, productid, unxcaja, total,familia, userName } = req.body;
+        const { name, code, codbarras, codprov, quantityu, quantityb, date, idealstock, productid, unxcaja, total,familia, username } = req.body;
         const result = await pool.query(
-            'UPDATE products SET name = $1, code = $2, codbarras = $3, codprov = $4, date = $5, quantityu = $6, quantityb = $7, idealstock = $8, unxcaja = $9, total = $10, familia = $11, userName = $12 WHERE productid = $13 RETURNING *',
-            [name, code, codbarras, codprov,  date, quantityu, quantityb, idealstock, unxcaja, total, familia, userName, productid]
+            'UPDATE products SET name = $1, code = $2, codbarras = $3, codprov = $4, date = $5, quantityu = $6, quantityb = $7, idealstock = $8, unxcaja = $9, total = $10, familia = $11, username = $12 WHERE productid = $13 RETURNING *',
+            [name, code, codbarras, codprov,  date, quantityu, quantityb, idealstock, unxcaja, total, familia, username, productid]
         );
         
         if (result.rowCount === 0) {
