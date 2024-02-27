@@ -48,6 +48,7 @@ router.get('/products', async (req, res) => {
             GROUP BY 
                 code
         `);
+        console.log(result.rows)
         res.json(result.rows);
     } catch (err) {
         res.status(500).send(err.message);
