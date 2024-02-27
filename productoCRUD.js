@@ -42,7 +42,7 @@ router.get('/products', async (req, res) => {
         MIN(unxcaja) AS unxcaja,
         SUM(quantityb * MIN(unxcaja) + quantityu) AS total,
         MIN(familia) AS familia,
-        MIN(username) AS username -- Asumiendo que puedes aplicar MIN a un campo de texto; de lo contrario, necesitas otra estrategia aquí
+        MIN(username) AS username
     FROM 
         products
     GROUP BY 
