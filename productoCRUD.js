@@ -32,21 +32,22 @@ router.get('/products/suggest', async (req, res) => {
 router.get('/products', async (req, res) => {
     try {
         const result = await pool.query(`
-            SELECT
-                name,
-                code,
-                codbarras,
-                codprov,
-                SUM(quantityb) AS quantityb,
-                SUM(quantityu) AS quantityu,
-                unxcaja,
-                SUM(quantityb * unxcaja + quantityu) AS total,
-                familia,
-                username
-            FROM 
-                products
-            GROUP BY 
-                code
+        SELECT
+        MIN(name) AS name,
+        code,
+        MIN(codbarras) AS codbarras,
+        MIN(codprov) AS codprov,
+        SUM(quantityb) AS quantityb,
+        SUM(quantityu) AS quantityu,
+        MIN(unxcaja) AS unxcaja,
+        SUM(quantityb * MIN(unxcaja) + quantityu) AS total,
+        MIN(familia) AS familia,
+        MIN(username) AS username -- Asumiendo que puedes aplicar MIN a un campo de texto; de lo contrario, necesitas otra estrategia aquí
+    FROM 
+        products
+    GROUP BY 
+        code
+    
         `);
         console.log(result.rows)
         res.json(result.rows);
@@ -70,7 +71,7 @@ console.log(pool.options);
 router.get('/products/:id', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM products WHERE productid = $1', [req.params.id]);
-        
+
         // Verifica si el producto existe
         if (result.rows.length === 0) {
             return res.status(404).send('Producto no encontrado');
@@ -103,7 +104,7 @@ router.get('/products/:id', async (req, res) => {
 // })
 router.post('/products', async (req, res) => {
     try {
-        const { name, code, codbarras, codprov, quantityb,quantityu, date, idealstock, unxcaja, total, familia, username } = req.body;
+        const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia, username } = req.body;
         const result = await pool.query(
             'INSERT INTO products(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, username) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
             [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, username]
@@ -121,12 +122,12 @@ router.post('/products', async (req, res) => {
 
 router.put('/products', async (req, res) => {
     try {
-        const { name, code, codbarras, codprov, quantityu, quantityb, date, idealstock, productid, unxcaja, total,familia, username } = req.body;
+        const { name, code, codbarras, codprov, quantityu, quantityb, date, idealstock, productid, unxcaja, total, familia, username } = req.body;
         const result = await pool.query(
             'UPDATE products SET name = $1, code = $2, codbarras = $3, codprov = $4, date = $5, quantityu = $6, quantityb = $7, idealstock = $8, unxcaja = $9, total = $10, familia = $11, username = $12 WHERE productid = $13 RETURNING *',
-            [name, code, codbarras, codprov,  date, quantityu, quantityb, idealstock, unxcaja, total, familia, username, productid]
+            [name, code, codbarras, codprov, date, quantityu, quantityb, idealstock, unxcaja, total, familia, username, productid]
         );
-        
+
         if (result.rowCount === 0) {
             return res.status(404).send('Producto no encontrado');
         }
@@ -141,7 +142,7 @@ router.delete('/products/:id', async (req, res) => {
 
     try {
         const result = await pool.query('DELETE FROM products WHERE productid = $1', [req.params.id]);
-        
+
         if (result.rowCount === 0) {
             return res.status(404).send('Producto no encontrado');
         }
