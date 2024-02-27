@@ -32,11 +32,17 @@ router.get('/products/suggest', async (req, res) => {
 router.get('/products', async (req, res) => {
     try {
         const result = await pool.query(`
-            SELECT 
+            SELECT
+                name,
                 code,
-                SUM(quantityu) AS total_quantityu,
-                SUM(quantityb) AS total_quantityb,
-                SUM(quantityb * unxcaja + quantityu) AS total
+                codbarras,
+                codprov,
+                SUM(quantityb) AS quantityb,
+                SUM(quantityu) AS quantityu,
+                unxcaja,
+                SUM(quantityb * unxcaja + quantityu) AS total,
+                familia,
+                username
             FROM 
                 products
             GROUP BY 
