@@ -62,19 +62,19 @@ router.get('/products/:id', async (req, res) => {
     }
 });
 
-router.post('/products/:username', async (req, res) =>{
-    try {
-        const {artid,userid,quantityb,quantityu}=req.body
-        const result = await pool.query(
-            'INSERT INTO productosusuarios(productoid,userid,quantityb,quantityu) VALUES($1, $2, $3, $4) RETURNING *',
-            [artid,userid,quantityb,quantityu]
-        );
-        res.json(result.rows[0]);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send(error.message);
-    }
-})
+// router.post('/products', async (req, res) =>{
+//     try {
+//         const {artid,userid,quantityb,quantityu}=req.body
+//         const result = await pool.query(
+//             'INSERT INTO productosusuarios(productoid,userid,quantityb,quantityu) VALUES($1, $2, $3, $4) RETURNING *',
+//             [artid,userid,quantityb,quantityu]
+//         );
+//         res.json(result.rows[0]);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send(error.message);
+//     }
+// })
 router.post('/products', async (req, res) => {
     try {
         const { name, code, codbarras, codprov, quantityb,quantityu, date, idealstock, unxcaja, total, familia, username } = req.body;
