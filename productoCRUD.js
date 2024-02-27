@@ -21,14 +21,33 @@ router.get('/products/suggest', async (req, res) => {
         res.status(500).send(err.message);
     }
 });
+// router.get('/products', async (req, res) => {
+//     try {
+//         const result = await pool.query('SELECT * FROM products');
+//         res.json(result.rows);
+//     } catch (err) {
+//         res.status(500).send(err.message);
+//     }
+// });
 router.get('/products', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM products');
+        const result = await pool.query(`
+            SELECT 
+                code,
+                SUM(quantityu) AS total_quantityu,
+                SUM(quantityb) AS total_quantityb,
+                SUM(quantityb * unxcaja + quantityu) AS total
+            FROM 
+                products
+            GROUP BY 
+                code
+        `);
         res.json(result.rows);
     } catch (err) {
         res.status(500).send(err.message);
     }
 });
+
 router.get('/products/:username', async (req, res) => {
     try {
         // Usa el operador ANY para buscar el username dentro del array username de la tabla
