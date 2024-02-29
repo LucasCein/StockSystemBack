@@ -137,7 +137,7 @@ router.put('/products', async (req, res) => {
     }
 });
 
-router.delete('/products/:id', async (req, res) => {
+router.delete('/products/edit/:id', async (req, res) => {
 
     try {
         const result = await pool.query('DELETE FROM products WHERE productid = $1', [req.params.id]);
