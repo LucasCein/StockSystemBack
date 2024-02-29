@@ -67,7 +67,7 @@ router.get('/products/:username', async (req, res) => {
 
 console.log(pool.options);
 
-router.get('/products/:id', async (req, res) => {
+router.get('/products/edit/:id', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM products WHERE productid = $1', [req.params.id]);
 
@@ -82,7 +82,7 @@ router.get('/products/:id', async (req, res) => {
         // Agrega el código QR al objeto del producto
         producto.qrCode = qrCode;
         console.log(producto)
-        res.json(result.rows);
+        res.json(producto);
     } catch (err) {
         res.status(500).send(err.message);
     }
