@@ -37,6 +37,7 @@ router.get('/products', async (req, res) => {
         code,
         codbarras,
         codprov,
+        date,
         unxcaja,
         SUM(quantityb) AS quantityb,
         SUM(quantityu) AS quantityu,
@@ -45,7 +46,7 @@ router.get('/products', async (req, res) => {
     FROM 
         Products
     GROUP BY 
-        code, name, codbarras, codprov, unxcaja, familia
+        code, name, codbarras, codprov, date, unxcaja, familia
         `);
         console.log(result)
         res.json(result.rows);
