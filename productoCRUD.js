@@ -82,7 +82,7 @@ router.get('/products/:id', async (req, res) => {
         // Agrega el código QR al objeto del producto
         producto.qrCode = qrCode;
         console.log(producto)
-        res.json(producto);
+        res.json(result.rows);
     } catch (err) {
         res.status(500).send(err.message);
     }
