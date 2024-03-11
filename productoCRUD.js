@@ -129,7 +129,7 @@ router.post('/productos/admin', async (req, res) => {
         for (const producto of productos) {
             const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia } = producto;
             const result = await pool.query(
-                'INSERT INTO products(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+                'INSERT INTO productsadmin(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
                 [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia]
             );
             resultados.push(result.rows[0]); // Suponiendo que quieres los productos insertados.
