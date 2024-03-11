@@ -161,22 +161,27 @@ router.delete('/products/edit/:id', async (req, res) => {
 
 router.post('/productos/admin', async (req, res) => {
     try {
-        const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia } = req.body; // `productos` debería ser un array de productos.
-        const result = await pool.query(
-            'INSERT INTO productsadmin(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
-            [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia]
-        );
-        res.json(result.rows);
-    }
-    // Envía todos los productos insertados como respuesta.
-    catch (error) {
+        const productos = req.body; // `productos` debería ser un array de productos.
+        const resultados = [];
+
+        for (const producto of productos) {
+            const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia } = producto;
+            const result = await pool.query(
+                'INSERT INTO productsadmin(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+                [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia]
+            );
+            resultados.push(result.rows[0]); // Suponiendo que quieres los productos insertados.
+        }
+
+        res.json(resultados); // Envía todos los productos insertados como respuesta.
+    } catch (error) {
         console.error(error);
         res.status(500).send(error.message);
     }
 });
 
 
-router.get('/productos/admin', async (req, res) => {
+router.get('/productos/admin', async (req,res) =>{
     try {
         const result = await pool.query('SELECT * FROM productsadmin');
         res.json(result.rows);
