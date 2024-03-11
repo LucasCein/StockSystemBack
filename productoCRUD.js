@@ -119,6 +119,30 @@ router.post('/products', async (req, res) => {
     }
 });
 
+//post pa productos admin
+
+router.post('/productos/admin', async (req, res) => {
+    try {
+        const productos = req.body; // `productos` debería ser un array de productos.
+        const resultados = [];
+
+        for (const producto of productos) {
+            const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia } = producto;
+            const result = await pool.query(
+                'INSERT INTO products(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+                [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia]
+            );
+            resultados.push(result.rows[0]); // Suponiendo que quieres los productos insertados.
+        }
+
+        res.json(resultados); // Envía todos los productos insertados como respuesta.
+    } catch (error) {
+        console.error(error);
+        res.status(500).send(error.message);
+    }
+});
+
+
 router.put('/products', async (req, res) => {
     try {
         const { name, code, codbarras, codprov, quantityu, quantityb, date, idealstock, productid, unxcaja, total, familia, username } = req.body;
@@ -151,5 +175,6 @@ router.delete('/products/edit/:id', async (req, res) => {
         res.status(500).send(err.message);
     }
 });
+
 
 module.exports = router;
