@@ -166,19 +166,30 @@ router.post('/productos/admin', async (req, res) => {
 
         for (const producto of productos) {
             const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia } = producto;
-            const result = await pool.query(
-                'INSERT INTO productsadmin(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
-                [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia]
+
+            // Primero, verificar si ya existe un producto con el mismo código.
+            const existsResult = await pool.query(
+                'SELECT * FROM productsadmin WHERE code = $1',
+                [code]
             );
-            resultados.push(result.rows[0]); // Suponiendo que quieres los productos insertados.
+
+            if (existsResult.rows.length === 0) {
+                // El producto no existe, proceder con la inserción.
+                const result = await pool.query(
+                    'INSERT INTO productsadmin(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+                    [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia]
+                );
+                resultados.push(result.rows[0]); // Producto insertado
+            } 
         }
 
-        res.json(resultados); // Envía todos los productos insertados como respuesta.
+        res.json(resultados); // Envía todos los productos insertados o existentes como respuesta.
     } catch (error) {
         console.error(error);
         res.status(500).send(error.message);
     }
 });
+
 
 
 router.get('/productos/admin', async (req,res) =>{
