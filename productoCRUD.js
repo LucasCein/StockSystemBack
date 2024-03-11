@@ -205,7 +205,7 @@ router.get('/productos/admin', async (req,res) =>{
 router.get('/productos/admin/:id', async (req,res)=>{
     try {
         const result = await pool.query('SELECT * FROM productsadmin WHERE productid = $1', [req.params.id]);
-        res.json(result.rows);
+        res.json(result.rows[0]);
     } catch (err) {
         res.status(500).send(err.message);
     }
