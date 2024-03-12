@@ -190,7 +190,23 @@ router.post('/productos/admin', async (req, res) => {
     }
 });
 
+router.put('/productos/admin', async (req,res)=>{
+    try {
+        const { name, code, codbarras, codprov, quantityu, quantityb, date, idealstock, productid, unxcaja, total, familia } = req.body;
+        const result = await pool.query(
+            'UPDATE productsadmin SET name = $1, code = $2, codbarras = $3, codprov = $4, date = $5, quantityu = $6, quantityb = $7, idealstock = $8, unxcaja = $9, total = $10, familia = $11 WHERE productid = $12 RETURNING *',
+            [name, code, codbarras, codprov, date, quantityu, quantityb, idealstock, unxcaja, total, familia, productid]
+        );
 
+        if (result.rowCount === 0) {
+            return res.status(404).send('Producto no encontrado');
+        }
+
+        res.json(result.rows[0]);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+})
 
 router.get('/productos/admin', async (req,res) =>{
     try {
