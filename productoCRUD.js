@@ -236,4 +236,14 @@ router.get('/productos/admin/:id', async (req,res)=>{
     }
 })
 
+
+router.delete('/productos/admin/:id', async (req,res)=>{
+    try {
+        const result = await pool.query('DELETE FROM productsadmin WHERE productid = $1', [req.params.id]);
+        res.send(`Producto con ID: ${req.params.id} eliminado`);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+})
+
 module.exports = router;
