@@ -161,20 +161,25 @@ router.delete('/products/edit/:id', async (req, res) => {
 
 router.post('/productos/admin', async (req, res) => {
     try {
-        const productos = req.body; // `productos` debería ser un array de productos.
+        // Acepta tanto un solo producto como un array de productos.
+        let productos = req.body;
+        // Si `productos` no es un array, conviértelo en uno para simplificar el manejo.
+        if (!Array.isArray(productos)) {
+            productos = [productos]; // Envuelve el objeto en un array
+        }
         const resultados = [];
 
         for (const producto of productos) {
             const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia } = producto;
 
-            // Primero, verificar si ya existe un producto con el mismo código.
+            // Verifica si ya existe un producto con el mismo código.
             const existsResult = await pool.query(
                 'SELECT * FROM productsadmin WHERE code = $1',
                 [code]
             );
 
             if (existsResult.rows.length === 0) {
-                // El producto no existe, proceder con la inserción.
+                // El producto no existe, procede con la inserción.
                 const result = await pool.query(
                     'INSERT INTO productsadmin(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
                     [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia]
@@ -183,12 +188,16 @@ router.post('/productos/admin', async (req, res) => {
             } 
         }
 
-        res.json(resultados); // Envía todos los productos insertados o existentes como respuesta.
+        res.json(resultados); // Envía todos los productos insertados como respuesta.
     } catch (error) {
         console.error(error);
         res.status(500).send(error.message);
     }
 });
+
+
+//agregar de a 1
+
 
 router.put('/productos/admin', async (req,res)=>{
     try {
