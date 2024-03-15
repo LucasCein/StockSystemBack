@@ -275,7 +275,7 @@ router.post('/historial', async (req, res) => {
 
             // Verifica si ya existe un producto con el mismo código.
             const existsResult = await pool.query(
-                'SELECT * FROM historial WHERE code = $1 && username = $2',
+                'SELECT * FROM historial WHERE code = $1 AND $2 = ANY(username)',
                 [code, username]
             );
                 
