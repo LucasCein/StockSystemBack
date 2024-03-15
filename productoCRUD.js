@@ -297,6 +297,14 @@ router.post('/historial', async (req, res) => {
     }
 });
 
-
+router.get('/historial/:username', async (req, res) => {
+    try {
+        // Usa el operador ANY para buscar el username dentro del array username de la tabla
+        const result = await pool.query('SELECT * FROM historial WHERE $1 = ANY(username)', [req.params.username]);
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
 
 module.exports = router;
