@@ -21,14 +21,14 @@ router.get('/products/suggest', async (req, res) => {
         res.status(500).send(err.message);
     }
 });
-// router.get('/products', async (req, res) => {
-//     try {
-//         const result = await pool.query('SELECT * FROM products');
-//         res.json(result.rows);
-//     } catch (err) {
-//         res.status(500).send(err.message);
-//     }
-// });
+router.get('/allproducts', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM products');
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
 router.get('/products', async (req, res) => {
     try {
         const result = await pool.query(`
