@@ -246,4 +246,15 @@ router.delete('/productos/admin/:id', async (req,res)=>{
     }
 })
 
+
+//get usernames
+
+router.get('/users',async (req,res)=>{
+    try {
+        const result = await pool.query("SELECT name FROM users where name != 'admin'");
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+})
 module.exports = router;
