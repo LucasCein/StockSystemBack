@@ -257,4 +257,46 @@ router.get('/users',async (req,res)=>{
         res.status(500).send(err.message);
     }
 })
+
+//agregar productos al historial para poder borrarlos despues de la tabla ppal
+
+router.post('/historial', async (req, res) => {
+    try {
+        // Acepta tanto un solo producto como un array de productos.
+        let productos = req.body;
+        // Si `productos` no es un array, conviértelo en uno para simplificar el manejo.
+        if (!Array.isArray(productos)) {
+            productos = [productos]; // Envuelve el objeto en un array
+        }
+        const resultados = [];
+
+        for (const producto of productos) {
+            const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia, username } = producto;
+
+            // Verifica si ya existe un producto con el mismo código.
+            const existsResult = await pool.query(
+                'SELECT * FROM historial WHERE code = $1 && username = $2',
+                [code, username]
+            );
+                
+
+            if (existsResult.rows.length === 0) {
+                // El producto no existe, procede con la inserción.
+                const result = await pool.query(
+                    'INSERT INTO historial(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, username) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
+                    [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, username]
+                );
+                resultados.push(result.rows[0]); // Producto insertado
+            } 
+        }
+
+        res.json(resultados); // Envía todos los productos insertados como respuesta.
+    } catch (error) {
+        console.error(error);
+        res.status(500).send(error.message);
+    }
+});
+
+
+
 module.exports = router;
