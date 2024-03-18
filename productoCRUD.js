@@ -143,6 +143,7 @@ router.put('/products', async (req, res) => {
 router.delete('/products', async (req,res)=>{
     try {
         const result=await pool.query('DELETE FROM products')
+        res.send('Productos Eliminados')
     } catch (error) {
         res.status(500).send(err.message);
     }
@@ -237,6 +238,7 @@ router.get('/productos/admin', async (req,res) =>{
 router.delete('/productos/admin', async (req,res)=>{
     try {
         const result=await pool.query('DELETE FROM productsadmin')
+        res.send('Productos Eliminados')
     } catch (error) {
         res.status(500).send(err.message);
     }
