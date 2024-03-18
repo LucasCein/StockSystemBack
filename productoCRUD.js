@@ -140,6 +140,15 @@ router.put('/products', async (req, res) => {
     }
 });
 
+router.delete('/products', async (req,res)=>{
+    try {
+        const result=await pool.query('DELETE FROM products')
+    } catch (error) {
+        res.status(500).send(err.message);
+    }
+})
+
+
 router.delete('/products/edit/:id', async (req, res) => {
 
     try {
