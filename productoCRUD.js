@@ -234,7 +234,13 @@ router.get('/productos/admin', async (req,res) =>{
         res.status(500).send(err.message);
     }
 })
-
+router.delete('/productos/admin', async (req,res)=>{
+    try {
+        const result=await pool.query('DELETE FROM productsadmin')
+    } catch (error) {
+        res.status(500).send(err.message);
+    }
+})
 
 router.get('/productos/admin/:id', async (req,res)=>{
     try {
