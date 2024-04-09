@@ -355,4 +355,12 @@ router.post('/excelstock', async (req, res) => {
     // }
 });
 
+router.get('/excelstock', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM stockexcel');
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
 module.exports = router;
