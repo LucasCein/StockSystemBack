@@ -334,7 +334,7 @@ router.post('/excelstock', async (req, res) => {
             const { code, codbarras, descripcion, marca, unxcaja, stockdep } = prod
             const result = await pool.query(
                 'INSERT INTO stockexcel(code,codbarras,descripcion,marca,unxcaja,stockdep) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
-                [code, codbarras, descripcion, marca, unxcaja, costo, stockdep]
+                [code, codbarras, descripcion, marca, unxcaja, stockdep]
             );
             resultados.push(result.rows[0]);
         }
