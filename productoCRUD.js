@@ -140,9 +140,9 @@ router.put('/products', async (req, res) => {
     }
 });
 
-router.delete('/products', async (req,res)=>{
+router.delete('/products', async (req, res) => {
     try {
-        const result=await pool.query('DELETE FROM products')
+        const result = await pool.query('DELETE FROM products')
         res.send('Productos Eliminados')
     } catch (error) {
         res.status(500).send(err.message);
@@ -195,7 +195,7 @@ router.post('/productos/admin', async (req, res) => {
                     [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia]
                 );
                 resultados.push(result.rows[0]); // Producto insertado
-            } 
+            }
         }
 
         res.json(resultados); // Envía todos los productos insertados como respuesta.
@@ -209,7 +209,7 @@ router.post('/productos/admin', async (req, res) => {
 //agregar de a 1
 
 
-router.put('/productos/admin', async (req,res)=>{
+router.put('/productos/admin', async (req, res) => {
     try {
         const { name, code, codbarras, codprov, quantityu, quantityb, date, idealstock, productid, unxcaja, total, familia } = req.body;
         const result = await pool.query(
@@ -227,7 +227,7 @@ router.put('/productos/admin', async (req,res)=>{
     }
 })
 
-router.get('/productos/admin', async (req,res) =>{
+router.get('/productos/admin', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM productsadmin');
         res.json(result.rows);
@@ -235,16 +235,16 @@ router.get('/productos/admin', async (req,res) =>{
         res.status(500).send(err.message);
     }
 })
-router.delete('/productos/admin', async (req,res)=>{
+router.delete('/productos/admin', async (req, res) => {
     try {
-        const result=await pool.query('DELETE FROM productsadmin')
+        const result = await pool.query('DELETE FROM productsadmin')
         res.send('Productos Eliminados')
     } catch (error) {
         res.status(500).send(err.message);
     }
 })
 
-router.get('/productos/admin/:id', async (req,res)=>{
+router.get('/productos/admin/:id', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM productsadmin WHERE productid = $1', [req.params.id]);
         res.json(result.rows[0]);
@@ -254,7 +254,7 @@ router.get('/productos/admin/:id', async (req,res)=>{
 })
 
 
-router.delete('/productos/admin/:id', async (req,res)=>{
+router.delete('/productos/admin/:id', async (req, res) => {
     try {
         const result = await pool.query('DELETE FROM productsadmin WHERE productid = $1', [req.params.id]);
         res.send(`Producto con ID: ${req.params.id} eliminado`);
@@ -266,7 +266,7 @@ router.delete('/productos/admin/:id', async (req,res)=>{
 
 //get usernames
 
-router.get('/users',async (req,res)=>{
+router.get('/users', async (req, res) => {
     try {
         const result = await pool.query("SELECT name FROM users where name != 'admin'");
         res.json(result.rows);
@@ -295,7 +295,7 @@ router.post('/historial', async (req, res) => {
                 'SELECT * FROM historial WHERE code = $1 AND $2 = ANY(username)',
                 [code, username]
             );
-                
+
 
             if (existsResult.rows.length === 0) {
                 // El producto no existe, procede con la inserción.
@@ -304,7 +304,7 @@ router.post('/historial', async (req, res) => {
                     [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, username]
                 );
                 resultados.push(result.rows[0]); // Producto insertado
-            } 
+            }
         }
 
         res.json(resultados); // Envía todos los productos insertados como respuesta.
@@ -327,16 +327,32 @@ router.get('/historial/:username', async (req, res) => {
 
 
 router.post('/excelstock', async (req, res) => {
-    const {code,codbarras,descripcion,marca,unxcaja,costo,stockdep}=req.body
+    const stockprods = req.body
+    const resultados = []
     try {
-        const result = await pool.query(
-            'INSERT INTO stockexcel(code,codbarras,descripcion,marca,unxcaja,costo,stockdep) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-            [code,codbarras,descripcion,marca,unxcaja,costo,stockdep]
-        );
-        res.json(result.rows[0]);
+        for (const prod of stockprods) {
+            const { code, codbarras, descripcion, marca, unxcaja, costo, stockdep } = prod
+            const result = await pool.query(
+                'INSERT INTO stockexcel(code,codbarras,descripcion,marca,unxcaja,costo,stockdep) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+                [code, codbarras, descripcion, marca, unxcaja, costo, stockdep]
+            );
+            resultados.push(result.rows[0]);
+        }
+        res.json(resultados);
     } catch (error) {
+        console.error(error);
         res.status(500).send(error.message);
     }
+    
+    // try {
+    //     const result = await pool.query(
+    //         'INSERT INTO stockexcel(code,codbarras,descripcion,marca,unxcaja,costo,stockdep) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+    //         [code,codbarras,descripcion,marca,unxcaja,costo,stockdep]
+    //     );
+    //     res.json(result.rows[0]);
+    // } catch (error) {
+    //     res.status(500).send(error.message);
+    // }
 });
 
 module.exports = router;
