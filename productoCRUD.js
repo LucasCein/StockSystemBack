@@ -324,4 +324,19 @@ router.get('/historial/:username', async (req, res) => {
     }
 });
 
+
+
+router.post('/excelstock', async (req, res) => {
+    const {code,codbarras,descripcion,marca,unxcaja,costo,stockdep}=req.body
+    try {
+        const result = await pool.query(
+            'INSERT INTO stockexcel(code,codbarras,descripcion,marca,unxcaja,costo,stockdep) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+            [code,codbarras,descripcion,marca,unxcaja,costo,stockdep]
+        );
+        res.json(result.rows[0]);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 module.exports = router;
