@@ -42,11 +42,12 @@ router.get('/products', async (req, res) => {
         SUM(quantityb) AS quantityb,
         SUM(quantityu) AS quantityu,
         SUM(quantityb * unxcaja + quantityu) AS total,
-        familia
+        familia,
+        marca
     FROM 
         Products
     GROUP BY 
-        code, name, codbarras, codprov, date, unxcaja, familia
+        code, name, codbarras, codprov, date, unxcaja, familia, marca
         `);
         console.log(result)
         res.json(result.rows);
@@ -103,10 +104,10 @@ router.get('/products/edit/:id', async (req, res) => {
 // })
 router.post('/products', async (req, res) => {
     try {
-        const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia, username } = req.body;
+        const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia, marca, username } = req.body;
         const result = await pool.query(
-            'INSERT INTO products(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, username) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
-            [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, username]
+            'INSERT INTO products(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, marca, username) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *',
+            [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, marca, username]
         );
 
         const nuevoproductid = result.rows[0].productid;
@@ -124,10 +125,10 @@ router.post('/products', async (req, res) => {
 
 router.put('/products', async (req, res) => {
     try {
-        const { name, code, codbarras, codprov, quantityu, quantityb, date, idealstock, productid, unxcaja, total, familia, username } = req.body;
+        const { name, code, codbarras, codprov, quantityu, quantityb, date, idealstock, productid, unxcaja, total, familia, marca, username } = req.body;
         const result = await pool.query(
-            'UPDATE products SET name = $1, code = $2, codbarras = $3, codprov = $4, date = $5, quantityu = $6, quantityb = $7, idealstock = $8, unxcaja = $9, total = $10, familia = $11, username = $12 WHERE productid = $13 RETURNING *',
-            [name, code, codbarras, codprov, date, quantityu, quantityb, idealstock, unxcaja, total, familia, username, productid]
+            'UPDATE products SET name = $1, code = $2, codbarras = $3, codprov = $4, date = $5, quantityu = $6, quantityb = $7, idealstock = $8, unxcaja = $9, total = $10, familia = $11, marca = $12, username = $13 WHERE productid = $14 RETURNING *',
+            [name, code, codbarras, codprov, date, quantityu, quantityb, idealstock, unxcaja, total, familia, marca, username, productid]
         );
 
         if (result.rowCount === 0) {
@@ -180,7 +181,7 @@ router.post('/productos/admin', async (req, res) => {
         const resultados = [];
 
         for (const producto of productos) {
-            const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia } = producto;
+            const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia, marca } = producto;
 
             // Verifica si ya existe un producto con el mismo código.
             const existsResult = await pool.query(
@@ -191,8 +192,8 @@ router.post('/productos/admin', async (req, res) => {
             if (existsResult.rows.length === 0) {
                 // El producto no existe, procede con la inserción.
                 const result = await pool.query(
-                    'INSERT INTO productsadmin(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
-                    [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia]
+                    'INSERT INTO productsadmin(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, marca) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
+                    [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, marca]
                 );
                 resultados.push(result.rows[0]); // Producto insertado
             }
@@ -288,7 +289,7 @@ router.post('/historial', async (req, res) => {
         const resultados = [];
 
         for (const producto of productos) {
-            const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia, username } = producto;
+            const { name, code, codbarras, codprov, quantityb, quantityu, date, idealstock, unxcaja, total, familia, marca, username } = producto;
 
             // Verifica si ya existe un producto con el mismo código.
             const existsResult = await pool.query(
@@ -300,8 +301,8 @@ router.post('/historial', async (req, res) => {
             if (existsResult.rows.length === 0) {
                 // El producto no existe, procede con la inserción.
                 const result = await pool.query(
-                    'INSERT INTO historial(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, username) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
-                    [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, username]
+                    'INSERT INTO historial(name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, marca, username) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *',
+                    [name, code, codbarras, codprov, date, quantityb, quantityu, idealstock, unxcaja, total, familia, marca, username]
                 );
                 resultados.push(result.rows[0]); // Producto insertado
             }
