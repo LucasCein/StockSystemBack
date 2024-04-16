@@ -13,10 +13,10 @@ app.use(express.json());
 
 
 
-//Configuración de CORS
+/* -------------------------- Configuración de CORS ------------------------- */
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = ['http://localhost:5173', 'https://stocksystemfront-gsg2.onrender.com'];
+    const allowedOrigins = ['http://localhost:5173', 'https://stocksystemfront-ecak.onrender.com'];
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
