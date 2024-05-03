@@ -1,19 +1,18 @@
 require('dotenv').config();
 require('./scheduledTasks');
-const loginRoutes=require('./login')
 const express = require('express');
-const productosRoutes = require('./productoCRUD');
-const cors = require('cors');
 const path = require('path');
+const cors = require('cors');
+
+const loginRoutes = require('./login');
+const productosRoutes = require('./productoCRUD');
+
 const app = express();
 
-// Middleware para parsear JSON aaaa
+// Middleware para parsear JSON
 app.use(express.json());
 
-
-
-
-/* -------------------------- Configuración de CORS ------------------------- */
+// Configuración de CORS
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = ['http://localhost:5173', 'https://stocksystemfront-ecak.onrender.com'];
@@ -23,30 +22,24 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  optionsSuccessStatus: 200 // Para navegadores antiguos que no soportan 204
+  optionsSuccessStatus: 200
 };
-
-// Aplica CORS antes de tus rutas
 app.use(cors(corsOptions));
 
+// Servir archivos estáticos (importantísimo para tu SPA)
 app.use(express.static(path.join(__dirname, 'dist')));
-// Tus rutas
+
+// Rutas específicas
 app.use(productosRoutes);
 app.use(loginRoutes);
-// Un endpoint de prueba para verificar que el servidor funciona
-// app.get('/', (req, res) => {
-//   res.send('¡El servidor Express está funcionando!');
-// });
 
-// Inicia el servidor
-const PORT = process.env.PORT || 3000;
+// Captura todas las demás rutas y redirige a index.html
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
+// Inicia el servidor
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, '::', () => {
-  console.log(`Servidor corriendo en https://stocksystemback-uorn.onrender.com${PORT}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
-// app.listen(PORT, '::', () => {
-//   console.log(`Servidor corriendo en http://localhost:${PORT}`);
-// });
