@@ -29,7 +29,7 @@ const corsOptions = {
 // Aplica CORS antes de tus rutas
 app.use(cors(corsOptions));
 
-
+app.use(express.static(path.join(__dirname, 'dist')));
 // Tus rutas
 app.use(productosRoutes);
 app.use(loginRoutes);
