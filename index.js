@@ -37,7 +37,7 @@ app.use(loginRoutes);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
-
+console.log('dirname',__dirname)
 // Inicia el servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '::', () => {
