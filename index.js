@@ -6,7 +6,7 @@ const cors = require('cors');
 
 const loginRoutes = require('./login');
 const productosRoutes = require('./productoCRUD');
-
+const compare = require('./excelStorage');
 const app = express();
 
 // Middleware para parsear JSON
@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'qrSystemFron', 'dist')));
 // Rutas específicas
 app.use(productosRoutes);
 app.use(loginRoutes);
-
+app.use('/comparar',compare);
 // Captura todas las demás rutas y redirige a index.html
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'qrSystemFron', 'dist', 'index.html'));
