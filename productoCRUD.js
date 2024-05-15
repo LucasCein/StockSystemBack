@@ -89,6 +89,22 @@ router.get('/products/edit/:id', async (req, res) => {
     }
 });
 
+router.get('/products/edit/:id/:username', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM historial WHERE code = $1 AND $2 = ANY(username)', [req.params.id, req.params.username]);
+
+        // Verifica si el producto existe
+        if (result.rows.length === 0) {
+            return res.status(404).send('Producto no encontrado');
+        }
+
+        const producto = result.rows[0];
+        res.json(producto);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
+
 // router.post('/products', async (req, res) =>{
 //     try {
 //         const {artid,userid,quantityb,quantityu}=req.body
