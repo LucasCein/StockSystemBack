@@ -105,6 +105,25 @@ router.get('/products/edit/:id/:username', async (req, res) => {
     }
 });
 
+router.put('/products/edit/:id', async (req, res) => {
+    try {
+        const {  code, quantityb, quantityu, total } = req.body;
+        const result = await pool.query( 
+            'UPDATE products SET code = $1, quantityb = $2, quantityu = $3, total = $4 WHERE code = $5 and $6 = ANY(username) RETURNING *',
+            [code, quantityb, quantityu, total, req.params.code, req.params.username])
+
+        // Verifica si el producto existe
+        if (result.rows.length === 0) {
+            return res.status(404).send('Producto no encontrado');
+        }
+
+        const producto = result.rows[0];
+        res.json(producto);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
+
 // router.post('/products', async (req, res) =>{
 //     try {
 //         const {artid,userid,quantityb,quantityu}=req.body
