@@ -105,12 +105,12 @@ router.get('/products/edit/:id/:username', async (req, res) => {
     }
 });
 
-router.put('/products/edit/:id', async (req, res) => {
+router.put('/products/edit/:id/:username', async (req, res) => {
     try {
-        const {  code, quantityb, quantityu, total } = req.body;
+        const { quantityb, quantityu, total } = req.body;
         const result = await pool.query( 
-            'UPDATE products SET code = $1, quantityb = $2, quantityu = $3, total = $4 WHERE code = $5 and $6 = ANY(username) RETURNING *',
-            [code, quantityb, quantityu, total, req.params.code, req.params.username])
+            'UPDATE products SET quantityb = $1, quantityu = $2, total = $3 WHERE code = $4 and $5 = ANY(username) RETURNING *',
+            [ quantityb, quantityu, total, req.params.id, req.params.username])
 
         // Verifica si el producto existe
         if (result.rows.length === 0) {
