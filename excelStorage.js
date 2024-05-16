@@ -25,7 +25,7 @@ router.post("/", upload.single("file"), (req, res) => {
   res.json({ message: "Archivo subido con éxito", fileId: req.file.filename });
 });
 
-app.post('/json', (req, res) => {
+router.post('/json', (req, res) => {
   const { headers, data } = req.body;
   const fileId = Date.now(); // Generar un ID único para el archivo
 
@@ -60,7 +60,7 @@ app.post('/json', (req, res) => {
   });
 });
 
-app.get('/json/:fileId', (req, res) => {
+router.get('/json/:fileId', (req, res) => {
   const fileId = req.params.fileId;
   const filePath = path.join(__dirname, `data_${fileId}.json`);
 
