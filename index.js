@@ -3,16 +3,18 @@ require('./scheduledTasks');
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const bodyParser = require('body-parser'); // Add this line
 
 const loginRoutes = require('./login');
 const productosRoutes = require('./productoCRUD');
 const compare = require('./excelStorage');
 const app = express();
 
-// Middleware para parsear JSON
-app.use(express.json());
+// Middleware to parse JSON
+app.use(bodyParser.json({ limit: '50mb' })); // Increase the limit here
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true })); // Increase the limit here
 
-// Configuración de CORS
+// CORS configuration
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = ['http://localhost:5173', 'https://stocksystemfront-ecak.onrender.com'];
@@ -26,20 +28,23 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Servir archivos estáticos (importantísimo para tu SPA)
+// Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Rutas específicas
+// Specific routes
 app.use(productosRoutes);
 app.use(loginRoutes);
+app.use(compare);
 
-// Captura todas las demás rutas y redirige a index.html
+// Catch all other routes and redirect to index.html
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
-console.log('dirname',__dirname)
-// Inicia el servidor
+
+console.log('dirname', __dirname);
+
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '::', () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
