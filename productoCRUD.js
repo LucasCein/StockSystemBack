@@ -614,7 +614,7 @@ router.get("/comparar/planillaoperador", async (req, res) => {
 
 
 // In your server.js or app.js
-app.delete('/comparar/clear-data', async (req, res) => {
+router.delete('/comparar/clear-data', async (req, res) => {
     try {
       await pool.query('DELETE FROM planillasistema');
       await pool.query('DELETE FROM planillaoperador');
