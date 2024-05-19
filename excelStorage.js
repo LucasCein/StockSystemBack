@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const router = express.Router();
 
-router.post("/planillasistema", async (req, res) => {
+router.post("/comparar/planillasistema", async (req, res) => {
   const rows = req.body;
 
   try {
@@ -44,7 +44,7 @@ router.get("/planillasistema", async (req, res) => {
 
 
 
-router.post("/planillaoperador", async (req, res) => {
+router.post("/comparar/planillaoperador", async (req, res) => {
   const rows = req.body;
 
   try {
@@ -73,7 +73,7 @@ router.post("/planillaoperador", async (req, res) => {
   }
 });
 
-router.get("/planillaoperador", async (req, res) => {
+router.get("/comparar/planillaoperador", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM planillaoperador");
     res.json(result.rows);

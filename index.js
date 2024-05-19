@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'qrSystemFron', 'dist')));
 // Rutas específicas
 app.use(productosRoutes);
 app.use(loginRoutes);
-app.use('/comparar',compare);
+app.use(compare);
 // Captura todas las demás rutas y redirige a index.html
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'qrSystemFron', 'dist', 'index.html'));
