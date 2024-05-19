@@ -554,8 +554,8 @@ router.post("/comparar/planillasistema", async (req, res) => {
   try {
     const insertPromises = rows.map((row) => {
       return pool.query(
-        `INSERT INTO planillasistema (code, codbarras, descripcion, marca, unxcaja, quantityu, quanitityb, total)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        `INSERT INTO planillasistema (code, codbarras, descripcion, marca, unxcaja, total)
+           VALUES ($1, $2, $3, $4, $5, $6)`,
         [
           row.code,
           row.codbarras,
