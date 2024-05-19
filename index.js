@@ -27,15 +27,15 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Servir archivos estáticos (importantísimo para tu SPA)
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Rutas específicas
 app.use(productosRoutes);
 app.use(loginRoutes);
-app.use(compare);
+
 // Captura todas las demás rutas y redirige a index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 console.log('dirname',__dirname)
 // Inicia el servidor
