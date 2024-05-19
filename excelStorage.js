@@ -21,9 +21,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post("/", upload.array("files", 10), (req, res) => {
-  const fileInfos = req.files.map(file => ({ message: "Archivo subido con éxito", fileId: file.filename }));
-  res.json(fileInfos);
+router.post("/", upload.single("file"), (req, res) => {
+  res.json({ message: "Archivo subido con éxito", fileId: req.file.filename });;
+  
 });
 
 router.post('/json', (req, res) => {
