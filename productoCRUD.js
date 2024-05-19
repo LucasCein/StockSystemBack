@@ -562,8 +562,6 @@ router.post("/comparar/planillasistema", async (req, res) => {
           row.descripcion,
           row.marca,
           row.unxcaja,
-          row.quantityu,
-          row.quanitityb,
           row.total,
         ]
       );
