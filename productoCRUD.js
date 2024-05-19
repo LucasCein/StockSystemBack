@@ -584,23 +584,14 @@ router.get("/planillasistema", async (req, res) => {
 });
 
 router.post("/comparar/planillaoperador", async (req, res) => {
-  const rows = req.body;
+  const { headers, data } = req.body;
 
   try {
-    const insertPromises = rows.map((row) => {
+    const insertPromises = data.map((row) => {
       return pool.query(
         `INSERT INTO planillaoperador (code, codbarras, descripcion, marca, unxcaja, quantityu, quanitityb, total)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-        [
-          row.code,
-          row.codbarras,
-          row.descripcion,
-          row.marca,
-          row.unxcaja,
-          row.quantityu,
-          row.quanitityb,
-          row.total,
-        ]
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        [row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]]
       );
     });
 
