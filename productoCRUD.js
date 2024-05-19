@@ -611,4 +611,18 @@ router.get("/comparar/planillaoperador", async (req, res) => {
     res.status(500).send(err.message);
   }
 });
+
+
+// In your server.js or app.js
+app.delete('/comparar/clear-data', async (req, res) => {
+    try {
+      await pool.query('DELETE FROM planillasistema');
+      await pool.query('DELETE FROM planillaoperador');
+      res.status(200).json({ message: 'Data cleared successfully' });
+    } catch (error) {
+      console.error('Error clearing data', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
 module.exports = router;
