@@ -574,7 +574,7 @@ router.post("/comparar/planillasistema", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-router.get("/planillasistema", async (req, res) => {
+router.get("/comparar/planillasistema", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM planillasistema");
     res.json(result.rows);
