@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true })); // Increase t
 // CORS configuration
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = ['http://localhost:5173', 'https://stocksystemfront-ecak.onrender.com'];
+    const allowedOrigins = ['http://localhost:9002/', 'https://stocksystemfront-ecak.onrender.com'];
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
