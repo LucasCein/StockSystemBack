@@ -10,7 +10,7 @@ const productosRoutes = require('./productoCRUD');
 const compare = require('./excelStorage');
 const app = express();
 
-// Middleware to parse JSON
+// Middleware to parse JSONaaa
 app.use(bodyParser.json({ limit: '50mb' })); // Increase the limit here
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true })); // Increase the limit here
 
